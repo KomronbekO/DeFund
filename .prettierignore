@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+.next
+out
+artifacts
+cache
+typechain-types
+coverage
+contracts/deployments
+**/prisma/migrations
+package-lock.json

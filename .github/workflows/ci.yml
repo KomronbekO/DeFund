@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Lint & test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm --workspace backend run prisma:generate
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+        env:
+          # Tests use a local Hardhat network — these are placeholders so the
+          # config validates. Quoted as strings to stop YAML parsers from
+          # coercing the 0x... hex literal into a number.
+          SEPOLIA_RPC_URL: 'https://rpc.sepolia.org'
+          PRIVATE_KEY: '0x0000000000000000000000000000000000000000000000000000000000000001'

@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id          Int       @id // matches on-chain id
+  creator     String
+  goal        String // wei, stored as decimal string to avoid precision loss
+  pledged     String    @default("0")
+  deadline    Int // unix seconds
+  claimed     Boolean   @default(false)
+  metadataURI String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  pledges     Pledge[]
+}
+
+model Pledge {
+  id         Int      @id @default(autoincrement())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+  backer     String
+  amount     String // wei as string
+  txHash     String   @unique
+  blockNumber Int
+  createdAt  DateTime @default(now())
+
+  @@index([campaignId])
+  @@index([backer])
+}
+
+model IndexerCursor {
+  id            Int @id @default(1)
+  lastBlock     Int @default(0)
+}

@@ -1,0 +1,41 @@
+{
+  "name": "defund",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hybrid crowdfunding DApp built for CN6035 coursework",
+  "workspaces": [
+    "contracts",
+    "backend",
+    "gateway",
+    "frontend"
+  ],
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,sol}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,sol}\"",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.5.3",
+    "prettier-plugin-solidity": "^2.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write"
+    ],
+    "*.sol": [
+      "prettier --write",
+      "solhint --config contracts/.solhint.json"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
