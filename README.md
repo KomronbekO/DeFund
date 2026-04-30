@@ -262,7 +262,3 @@ npm run lint                                  # ESLint + Solhint everywhere
 npm run format:check                          # Prettier
 npm run format                                # Prettier --write
 ```
-
-
-
- 
